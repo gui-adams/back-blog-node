@@ -5,31 +5,29 @@ interface UserRequest {
     name: string;
     email: string;
     password: string;
-    userId?: string;  // Adiciona o userId opcionalmente
+    user_id?: string;  // ID do admin criando o usuário
 }
 
 class CreateUserService {
-    async execute({ name, email, password, userId }: UserRequest) {
-        if (!email) {
-            throw new Error("Email Incorreto");
+    async execute({ name, email, password, user_id }: UserRequest) {
+        if (!email || !name || !password) {
+            throw new Error("Todos os campos são obrigatórios");
         }
 
         const userAlreadyExists = await prismaClient.user.findFirst({
-            where: {
-                email: email
-            }
+            where: { email }
         });
 
         if (userAlreadyExists) {
-            throw new Error("User já existe");
+            throw new Error("Usuário já existe");
         }
 
         const passwordHash = await hash(password, 8);
 
         const user = await prismaClient.user.create({
             data: {
-                name: name,
-                email: email,
+                name,
+                email,
                 password: passwordHash,
             },
             select: {

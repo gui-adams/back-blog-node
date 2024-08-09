@@ -29,7 +29,7 @@ export async function ensureAdmin(req: Request, res: Response, next: NextFunctio
         }
 
         // Adiciona o userId no objeto de requisição para uso posterior
-        req.userId = sub;
+        req.user_id = sub;
 
         return next();
     } catch (err) {
