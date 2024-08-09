@@ -4,20 +4,28 @@ import { CreateUserController } from './controllers/user/CreateUserController';
 import { AuthUserController } from './controllers/user/AuthUserController';
 import { ensureAdmin } from './middlewares/ensureAdmin';
 import { DetailUserController } from './controllers/user/DetailUserController';
-
 import { isAuthenticated } from './middlewares/isAuthenticated';
+import { CreateCategoryControllers } from './controllers/category/CreateCategoryControllers';
+import { ListCategoryController } from './controllers/category/ListCategoryController';
+import {CreatePostController} from './controllers/post/CreatePostController'
 
 
 const router = Router();
 
 // -- ROTAS USERS --
 router.post('/users', ensureAdmin, new CreateUserController().handle)
-
 router.post('/session', new AuthUserController().handle)
-
 router.get('/me', isAuthenticated, new DetailUserController().handle)
 
 // -- ROTAS CATEGORY --
+
+router.post('/category',isAuthenticated, new CreateCategoryControllers().handle)
+router.get('/category',isAuthenticated, new ListCategoryController().handle)
+
+// -- ROTAS POSTS --
+
+router.post('/post',isAuthenticated, new CreatePostController().handle)
+
 
 
 export { router };
