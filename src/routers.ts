@@ -10,6 +10,7 @@ import { CreateCategoryControllers } from './controllers/category/CreateCategory
 import { ListCategoryController } from './controllers/category/ListCategoryController';
 import {CreatePostController} from './controllers/post/CreatePostController'
 import uploadConfig from './config/multer'
+import { ListByPostController } from './controllers/post/ListByPostController';
 
 const router = Router();
 
@@ -28,6 +29,7 @@ router.get('/category',isAuthenticated, new ListCategoryController().handle)
 // -- ROTAS POSTS --
 
 router.post('/post',isAuthenticated, upload.single('file'), new CreatePostController().handle)
+router.get('/category/posts', new ListByPostController().handle);
 
 
 
