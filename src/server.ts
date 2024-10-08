@@ -14,10 +14,8 @@ app.use(cors());
 app.use(express.json());
 
 // Middleware para servir arquivos estáticos (como imagens de posts)
-app.use(
-  '/files',
-  express.static(path.resolve(__dirname, '..', 'tmp'))
-);
+app.use('/files', express.static(path.resolve(__dirname, '..', 'tmp')));
+
 
 // Registrar as rotas
 app.use(router);

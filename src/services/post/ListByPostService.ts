@@ -1,18 +1,20 @@
 import prismaClient from "../../prisma";
 
 interface ProductRequest {
-    category_id?: string; // 'category_id' é opcional
+  category_id?: string; // 'category_id' é opcional
 }
 
 class ListByPostService {
-    async execute({ category_id }: ProductRequest) {
+  async execute({ category_id }: ProductRequest) {
+    const findByCategory = await prismaClient.post.findMany({
+      where: category_id ? { category_id } : {},
+      include: {
+        category: true, // Inclui as informações da categoria relacionada
+      },
+    });
 
-        const findByCategory = await prismaClient.post.findMany({
-            where: category_id ? { category_id } : {} // Verifica se 'category_id' está presente
-        });
-
-        return findByCategory;
-    }
+    return findByCategory;
+  }
 }
 
 export { ListByPostService };
