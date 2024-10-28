@@ -1,27 +1,21 @@
-import { Request, Response } from 'express';
-import { CreateUserService } from '../../services/user/CreateUserservice';
-
+import { Request, Response } from "express";
+import { CreateUserService } from "../../services/user/CreateUserService";
 
 class CreateUserController {
     async handle(req: Request, res: Response) {
         const { name, email, password, role } = req.body;
-        const user_id = req.user_id;  // ID do admin que está criando o usuário
+        
+        // Usuário autenticado e role extraídos do token
+        const { user_role } = req;  
+
+        if (role === "admin" && user_role !== "admin") {
+            return res.status(403).json({ error: "Somente administradores podem criar outros administradores" });
+        }
 
         const createUserService = new CreateUserService();
 
         try {
-            // Verificar se o usuário autenticado tem permissão para criar admins
-            if (role === 'admin' && req.user_role !== 'admin') {
-                return res.status(403).json({ error: "Somente administradores podem criar outros administradores" });
-            }
-
-            const user = await createUserService.execute({
-                name,
-                email,
-                password,
-                role // Passa o papel do novo usuário
-            });
-
+            const user = await createUserService.execute({ name, email, password, role });
             return res.status(201).json(user);
         } catch (error) {
             return res.status(400).json({ error: error.message });
