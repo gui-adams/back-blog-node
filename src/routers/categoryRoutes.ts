@@ -1,14 +1,16 @@
 import { Router } from 'express';
-import { CreateCategoryControllers } from "../controllers/category/CreateCategoryControllers";
+import { CreateCategoryController } from "../controllers/category/CreateCategoryController";
 import { ListCategoryController } from "../controllers/category/ListCategoryController";
+import { EditCategoryController } from "../controllers/category/EditCategoryController";
+import { DeleteCategoryController } from "../controllers/category/DeleteCategoryController";
 import { isAuthenticated } from "../middlewares/isAuthenticated";
+import { ensureAdmin } from "../middlewares/ensureAdmin";
 
 const categoryRoutes = Router();
 
-// Criação de categoria (apenas para usuários autenticados)
-categoryRoutes.post("/category", isAuthenticated, new CreateCategoryControllers().handle);
-
-// Listagem de categorias (apenas para usuários autenticados)
+categoryRoutes.post("/category", isAuthenticated, ensureAdmin, new CreateCategoryController().handle);
 categoryRoutes.get("/category", isAuthenticated, new ListCategoryController().handle);
+categoryRoutes.put("/category/:id", isAuthenticated, ensureAdmin, new EditCategoryController().handle);
+categoryRoutes.delete("/category/:id", isAuthenticated, ensureAdmin, new DeleteCategoryController().handle);
 
 export { categoryRoutes };

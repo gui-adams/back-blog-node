@@ -1,15 +1,17 @@
-import {Request, Response} from 'express'
-import { ListCategoryService } from '../../services/category/listCategoryService'
+import { Request, Response } from 'express';
+import { ListCategoryService } from '../../services/category/ListCategoryService';
 
+class ListCategoryController {
+    async handle(req: Request, res: Response) {
+        const listCategoryService = new ListCategoryService();
 
-class ListCategoryController{
-    async handle (req: Request, rest: Response){
-        const listeCategoryService = new ListCategoryService();
-
-        const category = await listeCategoryService.execute();
-
-        return rest.json(category);
+        try {
+            const categories = await listCategoryService.execute();
+            return res.json(categories);
+        } catch (error) {
+            return res.status(400).json({ error: error.message });
+        }
     }
 }
 
-export {ListCategoryController}
+export { ListCategoryController };
