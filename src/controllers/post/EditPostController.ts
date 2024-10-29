@@ -4,7 +4,7 @@ import { EditPostService } from '../../services/post/EditPostService';
 class EditPostController {
     async handle(req: Request, res: Response) {
         const { id } = req.params;
-        const { title, description, conteudo, draft, published } = req.body;
+        const { title, description, conteudo, draft, published, category_id } = req.body; // Inclui category_id
 
         const editPostService = new EditPostService();
 
@@ -16,6 +16,7 @@ class EditPostController {
                 conteudo,
                 draft,
                 published,
+                category_id,
             });
             return res.json(post);
         } catch (error) {

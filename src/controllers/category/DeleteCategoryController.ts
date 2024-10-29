@@ -7,8 +7,8 @@ class DeleteCategoryController {
         const deleteCategoryService = new DeleteCategoryService();
 
         try {
-            const result = await deleteCategoryService.execute({ id });
-            return res.json(result);
+            await deleteCategoryService.execute({ id });
+            return res.status(204).send(); // 204 No Content para exclusão bem-sucedida sem corpo
         } catch (error) {
             return res.status(400).json({ error: error.message });
         }

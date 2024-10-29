@@ -4,6 +4,7 @@ import { CreatePostController } from "../controllers/post/CreatePostController";
 import { ListByPostController } from "../controllers/post/ListByPostController";
 import { EditPostController } from "../controllers/post/EditPostController";
 import { DeletePostController } from "../controllers/post/DeletePostController";
+import { GetPostByIdController } from "../controllers/post/GetPostByIdController"; // Importação do novo controller
 import { isAuthenticated } from "../middlewares/isAuthenticated";
 import uploadConfig from "../config/multer";
 
@@ -15,6 +16,9 @@ postRoutes.post("/post", isAuthenticated, upload.single("file"), new CreatePostC
 
 // Listagem de posts por categoria
 postRoutes.get("/category/posts", new ListByPostController().handle);
+
+// Buscar post específico por ID
+postRoutes.get("/post/:id", isAuthenticated, new GetPostByIdController().handle); // Nova rota
 
 // Edição de post
 postRoutes.put("/post/:id", isAuthenticated, new EditPostController().handle);
