@@ -53,11 +53,12 @@ model Post {
   created_at    DateTime   @default(now())
   updated_at    DateTime   @default(now())
 
-  category      Category   @relation(fields: [category_id], references: [id])
-  category_id   String
+  category      Category?  @relation(fields: [category_id], references: [id], onDelete: SetNull)
+  category_id   String?    // Torna o campo opcional para aceitar `null`
 
-  author        User       @relation(fields: [author_id], references: [id]) // Relacionamento com usuário
+  author        User       @relation(fields: [author_id], references: [id])
   author_id     String
 
   @@map("posts")
+
 }
