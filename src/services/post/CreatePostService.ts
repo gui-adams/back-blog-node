@@ -5,30 +5,28 @@ interface PostRequest {
     description?: string;
     conteudo: string;
     banner: string;
-    draft?: boolean;       // Opcional com valor padrão true
-    published?: boolean;   // Opcional com valor padrão false
+    draft?: boolean;
+    published?: boolean;
     category_id: string;
     author_id: string;
 }
 
 class CreatePostService {
     async execute({ title, description, conteudo, banner, draft = true, published = false, category_id, author_id }: PostRequest) {
-        // Verificando se os campos obrigatórios foram fornecidos
         if (!title || !conteudo || !banner || !category_id || !author_id) {
-            throw new Error("Missing required fields");
+            throw new Error("Campos obrigatórios faltando");
         }
 
-        // Criando o post usando o Prisma Client
         const post = await prismaClient.post.create({
             data: {
-                title: title,
-                description: description,
-                conteudo: conteudo,
-                banner: banner,
-                draft: draft,
-                published: published,
-                category_id: category_id,
-                author_id: author_id,
+                title,
+                description,
+                conteudo,
+                banner,
+                draft,
+                published,
+                category_id,
+                author_id,
             }
         });
 
