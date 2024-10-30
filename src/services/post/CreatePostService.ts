@@ -8,7 +8,7 @@ interface PostRequest {
     draft?: boolean;
     published?: boolean;
     category_id: string;
-    author_id: string;
+    author_id: string;  // Campo obrigatório
 }
 
 class CreatePostService {
@@ -26,8 +26,8 @@ class CreatePostService {
                 draft,
                 published,
                 category_id,
-                author_id,
-            }
+                author_id, // Inclui author_id
+            },
         });
 
         return post;
