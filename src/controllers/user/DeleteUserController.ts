@@ -4,6 +4,11 @@ import { DeleteUserService } from "../../services/user/DeleteUserService";
 class DeleteUserController {
     async handle(req: Request, res: Response) {
         const { id } = req.params;
+        const { user_role } = req;
+
+        if (user_role !== "admin") {
+            return res.status(403).json({ error: "Somente administradores podem excluir usuários" });
+        }
 
         const deleteUserService = new DeleteUserService();
 

@@ -15,7 +15,7 @@ export function isAuthenticated(req: Request, res: Response, next: NextFunction)
     const [, token] = authToken.split(" ");
     try {
         const { sub, role } = verify(token, process.env.JWT_SECRET as string) as Payload;
-        req.user_id = sub;  // Configura author_id
+        req.user_id = sub;
         req.user_role = role;
         return next();
     } catch (error) {

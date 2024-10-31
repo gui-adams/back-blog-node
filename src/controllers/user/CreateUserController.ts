@@ -1,26 +1,31 @@
-import { Request, Response } from "express";
-import { CreateUserService } from "../../services/user/CreateUserService";
+import { Request, Response } from 'express';
+import prismaClient from '../../prisma';
+import { hash } from 'bcryptjs';
 
-class CreateUserController {
-    async handle(req: Request, res: Response) {
-        const { name, email, password, role } = req.body;
-        
-        // Usuário autenticado e role extraídos do token
-        const { user_role } = req;  
+export class CreateUserController {
+  async handle(req: Request, res: Response) {
+    const { name, email, password, role } = req.body;
 
-        if (role === "admin" && user_role !== "admin") {
-            return res.status(403).json({ error: "Somente administradores podem criar outros administradores" });
-        }
+    try {
+      const userExists = await prismaClient.user.findUnique({ where: { email } });
+      if (userExists) {
+        return res.status(400).json({ error: 'Usuário já existe' });
+      }
 
-        const createUserService = new CreateUserService();
+      const passwordHash = await hash(password, 8);
 
-        try {
-            const user = await createUserService.execute({ name, email, password, role });
-            return res.status(201).json(user);
-        } catch (error) {
-            return res.status(400).json({ error: error.message });
-        }
+      const user = await prismaClient.user.create({
+        data: {
+          name,
+          email,
+          password: passwordHash,
+          role,
+        },
+      });
+
+      return res.status(201).json({ message: 'Usuário criado com sucesso', user });
+    } catch (error) {
+      return res.status(500).json({ error: 'Erro ao criar usuário' });
     }
+  }
 }
-
-export { CreateUserController };
