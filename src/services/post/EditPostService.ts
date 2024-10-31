@@ -8,10 +8,12 @@ interface EditPostRequest {
     banner?: string;
     draft?: boolean;
     published?: boolean;
+    category_id?: string; // Inclui category_id
 }
 
+
 class EditPostService {
-    async execute({ id, title, description, conteudo, banner, draft, published }: EditPostRequest) {
+    async execute({ id, title, description, conteudo, banner, draft, published, category_id }: EditPostRequest) {
         const existingPost = await prismaClient.post.findUnique({ where: { id } });
         if (!existingPost) {
             throw new Error("Post não encontrado");
@@ -26,7 +28,8 @@ class EditPostService {
                 banner,
                 draft,
                 published,
-            }
+                category_id, // Inclui category_id na atualização
+            },
         });
 
         return updatedPost;
