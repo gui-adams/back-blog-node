@@ -7,33 +7,24 @@ interface Payload {
 }
 
 export function isAuthenticated(req: Request, res: Response, next: NextFunction) {
-    const authToken = req.headers.authorization;
+    const authToken = req.headers.authorization || req.cookies?.session; // Tenta obter do header ou do cookie
 
-    // Verifica se o token foi fornecido
     if (!authToken) {
-        console.error("Erro: Token não fornecido");
-        return res.status(401).json({ error: "Token não fornecido" });
+        console.error("Token ausente no middleware. Redirecionando para login.");
+        return res.status(401).json({ error: "Token ausente" });
     }
 
-    // Extraindo o token de forma segura
-    const [, token] = authToken.split(" ");
-    if (!token) {
-        console.error("Erro: Formato de token inválido");
-        return res.status(401).json({ error: "Formato de token inválido" });
-    }
+    const token = authToken.startsWith("Bearer") ? authToken.split(" ")[1] : authToken;
 
     try {
-        // Verifica o token e extrai o payload
         const { sub, role } = verify(token, process.env.JWT_SECRET as string) as Payload;
-
-        console.log("Token verificado, payload:", { sub, role });
-
-        req.user_id = sub; // Define o user_id no request
+        req.user_id = sub;
         req.user_role = role;
-        return next();
+        next();
     } catch (error) {
         console.error("Erro ao validar o token:", error);
         return res.status(401).json({ error: "Token inválido" });
     }
 }
+
 
