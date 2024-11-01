@@ -15,8 +15,12 @@ export function isAuthenticated(req: Request, res: Response, next: NextFunction)
         return res.status(401).json({ error: "Token não fornecido" });
     }
 
-    // Extraindo o token
+    // Extraindo o token de forma segura
     const [, token] = authToken.split(" ");
+    if (!token) {
+        console.error("Erro: Formato de token inválido");
+        return res.status(401).json({ error: "Formato de token inválido" });
+    }
 
     try {
         // Verifica o token e extrai o payload
@@ -32,3 +36,4 @@ export function isAuthenticated(req: Request, res: Response, next: NextFunction)
         return res.status(401).json({ error: "Token inválido" });
     }
 }
+
