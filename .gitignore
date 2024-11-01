@@ -36,4 +36,4 @@ Thumbs.db
 tmp/
 
 #user
-createAdmin
+src/createAdmin.ts
