@@ -8,13 +8,15 @@ class ListCategoryController {
         try {
             const categories = await listCategoryService.execute();
             if (categories.length === 0) {
-                return res.status(200).json({ message: "Nenhuma categoria encontrada." });
+                // Retorna uma lista vazia para manter o formato consistente
+                return res.status(200).json([]);
             }
             return res.json(categories);
         } catch (error) {
-            return res.status(400).json({ error: error.message });
+            return res.status(500).json({ error: "Erro ao carregar as categorias" });
         }
     }
 }
+
 
 export { ListCategoryController };
