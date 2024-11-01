@@ -11,12 +11,7 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors({
-    origin: ['http://localhost:3000', 'http://simpleway.tech'], // Permite localhost (para desenvolvimento) e o domínio em produção
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos HTTP permitidos
-    credentials: true // Inclui cookies e cabeçalhos de autenticação, se necessário
-}));
-
+app.use(cors());
 app.use(express.json());
 app.use('/files', express.static(path.resolve(__dirname, '..', 'tmp')));
 
