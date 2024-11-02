@@ -8,6 +8,7 @@ import { ensureAdmin } from "../middlewares/ensureAdmin";
 
 const categoryRoutes = Router();
 
+// Rotas de categorias com autenticação e permissão
 categoryRoutes.post("/category", isAuthenticated, ensureAdmin, new CreateCategoryController().handle);
 categoryRoutes.get("/category", isAuthenticated, new ListCategoryController().handle);
 categoryRoutes.put("/category/:id", isAuthenticated, ensureAdmin, new EditCategoryController().handle);
