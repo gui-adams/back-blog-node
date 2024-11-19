@@ -4,6 +4,7 @@ Este é o backend de um sistema de blog desenvolvido com Node.js e TypeScript, u
 
 
 Funcionalidades
+
 API RESTful para gerenciamento de posts e categorias.
 Autenticação e autorização de usuários.
 Integração com banco de dados via Prisma.
@@ -12,6 +13,7 @@ Tratamento de erros e validações.
 Suporte a uploads de arquivos (ex.: imagens de posts).
 
 Tecnologias Utilizadas
+
 Node.js: Ambiente de execução para JavaScript no backend.
 TypeScript: Tipagem estática para maior segurança e produtividade.
 Prisma: ORM para manipulação de banco de dados.
