@@ -26,3 +26,11 @@ Requisitos
 Node.js: Versão 16 ou superior.
 PostgreSQL: Para o banco de dados.
 NPM ou Yarn: Gerenciador de pacotes.
+
+
+Contato
+
+Autor: Guilherme Adams
+E-mail: guilherme.adams@live.com
+Repositório: https://github.com/gui-adams/back-blog-node
+
