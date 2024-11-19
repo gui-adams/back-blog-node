@@ -1,4 +1,5 @@
 Back-Blog-Node
+
 Este é o backend de um sistema de blog desenvolvido com Node.js e TypeScript, utilizando Prisma para o ORM e conectividade com o banco de dados. A API oferece recursos para gerenciar posts, categorias e usuários.
 
 
