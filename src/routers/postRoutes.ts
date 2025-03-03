@@ -13,13 +13,13 @@ import { isAuthenticated } from "../middlewares/isAuthenticated";
 import uploadConfig from "../config/multer";
 
 const postRoutes = Router();
-const upload = multer(uploadConfig.upload("./tmp"));
+const upload = multer(uploadConfig.upload("tmp"));
 
 // Rota pública para listagem de posts para usuários comuns
-postRoutes.get("/posts", new ListPublicPostsController().handle);
+postRoutes.get("/post", new ListPublicPostsController().handle);
 
 // Criação de post com upload de arquivo
-postRoutes.post("/post", isAuthenticated, upload.single("file"), new CreatePostController().handle);
+postRoutes.post("/post", isAuthenticated, upload.single("image"), new CreatePostController().handle);
 
 // Listagem de posts por categoria
 postRoutes.get("/category/posts", new ListByPostController().handle);

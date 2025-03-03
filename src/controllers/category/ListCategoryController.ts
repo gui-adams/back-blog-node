@@ -7,11 +7,18 @@ class ListCategoryController {
 
         try {
             const categories = await listCategoryService.execute();
-            if (categories.length === 0) {
+            
+            const serializedCategories = categories.map(category => ({
+                ...category,
+                id: String(category.id)
+            }));
+
+            if (serializedCategories.length === 0) {
                 return res.status(200).json({ message: "Nenhuma categoria encontrada." });
             }
-            return res.json(categories);
+            return res.json(serializedCategories);
         } catch (error) {
+            console.log('Error: ', error)
             return res.status(400).json({ error: error.message });
         }
     }

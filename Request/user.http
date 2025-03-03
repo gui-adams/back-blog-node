@@ -1,0 +1,7 @@
+POST http://localhost:3002/session
+Content-Type: application/json
+
+{
+    "username": "larissa.felix@simpleway.tech",
+    "password": "windows99"
+}

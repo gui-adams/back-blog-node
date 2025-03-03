@@ -3,10 +3,11 @@ import { CreateUserService } from "../../services/user/CreateUserService";
 
 class CreateUserController {
     async handle(req: Request, res: Response) {
+
         const { name, email, password, role } = req.body;
-        
+
         // Usuário autenticado e role extraídos do token
-        const { user_role } = req;  
+        let { user_role } = req;
 
         if (role === "admin" && user_role !== "admin") {
             return res.status(403).json({ error: "Somente administradores podem criar outros administradores" });

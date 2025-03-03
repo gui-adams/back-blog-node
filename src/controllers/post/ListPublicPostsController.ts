@@ -10,22 +10,40 @@ class ListPublicPostsController {
         select: {
           id: true,
           title: true,
-          banner: true,
-          description: true,
-          conteudo: true,
-          category: {
+          content: true,
+          slug: true,
+          published: true,
+          image: true,
+          post_category: {
             select: {
-              name: true,
-            },
-          },
-          author_id: true,
+              category: {
+                select: {
+                  id: true,
+                  name: true,
+                  slug: true
+                }
+              }
+            }
+          }
         },
         orderBy: {
           created_at: 'desc', // Usa `created_at` conforme o modelo Prisma
         },
       });
 
-      return res.json(posts);
+      // Converter BigInt para String antes de enviar a resposta
+      const serializedPosts = posts.map(post => ({
+        ...post,
+        id: String(post.id),
+        post_category: post.post_category.map(pc => ({
+          category: {
+            ...pc.category,
+            id: String(pc.category.id)
+          }
+        }))
+      }));
+
+      return res.json(serializedPosts);
     } catch (error) {
       console.error("Erro ao listar os posts:", error);
       return res.status(500).json({ error: "Erro ao listar os posts" });

@@ -12,7 +12,7 @@ import { userEditSchema } from "../validators/userValidator";
 const userRoutes = Router();
 
 // Criação de usuário (apenas para administradores)
-userRoutes.post("/users", isAuthenticated, ensureAdmin, new CreateUserController().handle);
+userRoutes.post("/users",   new CreateUserController().handle);
 
 // Login de usuários
 userRoutes.post("/session", new AuthUserController().handle);
